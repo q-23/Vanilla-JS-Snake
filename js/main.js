@@ -1,7 +1,6 @@
 class Game {
-  constructor(mode){
-    this.mode = mode;
-    this.interval = this.pickInterval(this.mode);
+  constructor(interval){
+    this.interval = interval;
     this.snake = [148, 149, 150];
     this.nextTile = 151;
     this.dot = this.returnRandom();
@@ -24,20 +23,6 @@ class Game {
       document.getElementById(`${elements}`).style.backgroundColor = color
     }
   }
-  //Returns the appropriate interval based on selected mode
-  pickInterval(mode){
-    switch(mode){
-      case 'easy':
-        return 160
-      break;
-      case 'normal':
-        return 140
-      break;
-      case 'hard':
-        return 95
-      break;
-    }
-  }
   move(){
     //select next tile which will be added into snake array during next move, considering direction in which we're moving
     //Change game state whenever snake reaches the borders
@@ -47,11 +32,11 @@ class Game {
     this.checkIfGotDot();
     switch(this.direction){
       case 'right':
-        if(this.head()%20===0 && this.mode!=='easy'){
+        if(this.head()%20===0 && this.interval!==170){
           //If mode isn't set to easy and the head reaches any of the edges - game ends.
           this.isPlaying = false
           this.snake.push(this.snake[(this.snake.length-1)-1])
-        } else if(this.head()%20===0 && this.mode==='easy') {
+        } else if(this.head()%20===0 && this.interval===170) {
           //In easy mode it is possible to pass through the borders, and this is the function which handles it
           this.nextTile = this.snake[this.snake.length-1]-19
         } else {
@@ -60,30 +45,30 @@ class Game {
         }
         break;
       case 'up':
-        if(this.head()<=20 && this.mode!=='easy'){
+        if(this.head()<=20 && this.interval!==170){
           this.isPlaying = false
           this.snake.push(this.snake[(this.snake.length-1)+20])
-        } else if(this.head()<=20 && this.mode==='easy') {
+        } else if(this.head()<=20 && this.interval===170) {
           this.nextTile = this.snake[this.snake.length-1]+380
         } else {
           this.nextTile = this.head()  - 20;
         }
         break;
       case 'down':
-        if(this.head()>=380 && this.mode!=='easy'){
+        if(this.head()>=380 && this.interval!==170){
           this.isPlaying = false
           this.snake.push(this.snake[(this.snake.length-1)-20])
-        } else if (this.head()>=380 && this.mode==='easy') {
+        } else if (this.head()>=380 && this.interval===170) {
           this.nextTile = this.snake[this.snake.length-1]-380
         } else {
           this.nextTile = this.head()  + 20;
         }
         break;
       case 'left':
-        if((this.head()+19)%20===0 && this.mode!=='easy'){
+        if((this.head()+19)%20===0 && this.interval!==170){
           this.isPlaying = false
           this.snake.push(this.snake[(this.snake.length-1)+1])
-        } else if ((this.head()+19)%20===0 && this.mode==='easy') {
+        } else if ((this.head()+19)%20===0 && this.interval===170) {
           this.nextTile = this.snake[this.snake.length-1]+19
         } else {
           this.nextTile = this.head()  - 1;
